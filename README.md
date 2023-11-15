@@ -1,2 +1,2 @@
 # TagTamer-C
-Its a simple html parser
+A simple html parser written in C on its infant phase.
