@@ -12,15 +12,6 @@ struct HTMLElement {
   char* content;
 };
 
-typedef enum {
-  START_TAG,
-  END_TAG,
-  COMMENT,
-  TEXT,
-  HTML_EOF
-}Tokens;
-
-
 
 struct HTMLElement* parseHTML (const char*);
 #endif
