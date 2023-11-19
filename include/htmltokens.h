@@ -19,37 +19,54 @@ typedef enum {
     HTML_EOF
 } TokenType;
 
-typedef struct {
-    TokenType type;
-    char* tag;
-    bool isVoidElements;
-} StartTag;
+
 
 typedef struct {
-    TokenType type;
-    char* tag; 
+    char* tagValue;
+    bool isVoidElement;
+} StartTag;
+
+
+
+typedef struct {
+    char* tagValue; 
     bool isVoidElements;
 } EndTag;
 
+
+
 typedef struct {
-    TokenType type;
     char* CommentValue; 
 } Comment;
 
+
+
 typedef struct {
-    TokenType type;
     char* TextValue; 
 } Text;
 
+
+
 typedef struct {
-    TokenType type;
 } HtmlEOF;
+
+
 
 typedef struct {
     TokenType type;
-    char* value;
+    void* value;
 }Token;
 
 
+
+typedef struct {
+    Token* tokens;
+    size_t size;
+}TokenStream;
+
+
+
+//void Display_Token();
+//bool is_start_tag(const Token*, const char*);
 
 #endif // !_HTMLTOKENS_H
