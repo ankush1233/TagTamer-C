@@ -9,16 +9,18 @@ int main() {
 
     //printf("Comment:%s\n", ((Comment*)(tokenStream.tokens->value))->CommentValue);
     //for (size_t i = 0; i < tokenStream.size; i++) {
-        if ((tokenStream.tokens)->type == COMMENT) {
-            printf("Comment:%s\n", ((Comment*)(tokenStream.tokens->value))->CommentValue);
-            //free(((Comment*)&tokenStream.tokens[i].value)->CommentValue);
-        }
+        //if ((tokenStream.tokens)->type == COMMENT) {
+        //    printf("Comment:%s\n", ((Comment*)(tokenStream.tokens->value))->CommentValue);
+        //    //free(((Comment*)&tokenStream.tokens[i].value)->CommentValue);
+        //}
     //}
 
     //assert(tokenStream.size == 2);
 
     // Test case 2: Check the content of the first comment
     assert(strcmp(((Comment*)tokenStream.tokens->value)->CommentValue, " First comment ") == 0);
+
+    printf("TEST CASE PASSED");
 
     // Test case 3: Check the content 
     //assert(strcmp(((Comment*)&tokenStream.tokens[1].value)->CommentValue, " Second comment ") == 0);
