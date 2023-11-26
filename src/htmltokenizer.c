@@ -10,21 +10,27 @@ TokenStream tokenizer(const char* htmlString) {
             htmlString++;
             continue;
         }
-        if (*htmlString == '<'){
+        if (*htmlString == '<') {
             if (strncmp(htmlString, "<!--", 4) == 0) {
 
                 htmlString += 4; // Move past <!--
 
-                tokenStream.tokens = (Token*)malloc(sizeof(Token));
+                Token* newToken = (Token*)malloc(sizeof(Token));
+                if (newToken == NULL) {
+                    exit(EXIT_FAILURE);
+                }
 
+                newToken->type = COMMENT;
+                newToken->value = (Comment*)malloc(sizeof(Comment));
+
+                tokenStream.tokens = (Token*)realloc(tokenStream.tokens, (tokenStream.size + 1) * sizeof(Token));
                 if (tokenStream.tokens == NULL) {
                     exit(EXIT_FAILURE);
                 }
 
-                (tokenStream.tokens)->type = COMMENT;
-                (tokenStream.tokens)->value = (Comment*)malloc(sizeof(Comment));
-
-                ((Comment*)((tokenStream.tokens)->value))->CommentValue = (char*)malloc(sizeof(char));
+                tokenStream.tokens[tokenStream.size] = *newToken;
+                //tokenStream.tokens = newToken;
+                free(newToken);
 
                 const char* CommentEndSign = "-->";
 
@@ -33,12 +39,17 @@ TokenStream tokenizer(const char* htmlString) {
                 }
 
                 const char* CommentEndSignPosition = strstr(htmlString, CommentEndSign);
-                //size_t sizeOfTheComment = CommentEndSign - htmlString;
-
                 size_t sizeOfTheComment = CommentEndSignPosition - htmlString;
 
-                strncpy(((Comment*)(tokenStream.tokens->value))->CommentValue, htmlString, sizeOfTheComment);
+                Comment* CommentBuffer = (tokenStream.tokens[tokenStream.size].value);
 
+                CommentBuffer->CommentValue = (char*)malloc(sizeOfTheComment + 1);  // +1 for null terminator
+
+                strncpy(CommentBuffer->CommentValue, htmlString, sizeOfTheComment);
+                CommentBuffer->CommentValue[sizeOfTheComment] = '\0';
+
+                htmlString = CommentEndSignPosition + strlen(CommentEndSign);
+                tokenStream.size++;
             }
             else {
                 // If it's not the start of a comment, move to the next character
@@ -51,4 +62,5 @@ TokenStream tokenizer(const char* htmlString) {
     }
 
     return tokenStream;
+
 }
