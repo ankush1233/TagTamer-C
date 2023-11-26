@@ -16,7 +16,6 @@
         } \
     } while (0)
 
-// Declare your test functions
 
 void test_tokenizer();
 
