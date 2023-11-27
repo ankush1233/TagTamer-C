@@ -29,24 +29,29 @@ void test_tokenizer() {
 #include "test.h"
 
 void test_tokenizer() {
-    const char* htmlString = "<!--this is a comment --> andffs <!-- danmn man-->";
+    const char* htmlString = "<!--this is a comment --> andffs <!-- danmn man--> </tag>";
 
     TokenStream tokenStream = tokenizer(htmlString);
 
     Comment* CommentBuffer = (Comment*)malloc(tokenStream.size * sizeof(Comment));
+    EndTag* EndTagBuffer = (EndTag*)malloc(tokenStream.size * sizeof(Comment));
+    
     CommentBuffer = (tokenStream.tokens[0].value);
+    EndTagBuffer = (tokenStream.tokens[2].value);
 
     // Use assertions or other testing mechanisms
     ASSERT_EQUAL(strcmp(CommentBuffer->CommentValue, "this is a comment "), 0);
     CommentBuffer = (tokenStream.tokens[1].value);
     
     ASSERT_EQUAL(strcmp(CommentBuffer->CommentValue, " danmn man"), 0);
-    ASSERT_EQUAL(tokenStream.size, 2);
+    ASSERT_EQUAL(tokenStream.size, 3);
+
+
+    ASSERT_EQUAL(strcmp(EndTagBuffer->tagValue, "tag"), 0);
 
     // Free allocated memory
     free(CommentBuffer);
-    free(((Comment*)((tokenStream.tokens)->value))->CommentValue);
-    free((Comment*)((tokenStream.tokens)->value));
+    free(EndTagBuffer);
     free(tokenStream.tokens);
 }
 

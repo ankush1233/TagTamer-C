@@ -17,6 +17,6 @@
     } while (0)
 
 
-void test_tokenizer();
+void  test_tokenizer();
 
 #endif // TEST_H

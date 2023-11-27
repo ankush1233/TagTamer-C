@@ -30,7 +30,6 @@ typedef struct {
 
 typedef struct {
     char* tagValue; 
-    bool isVoidElements;
 } EndTag;
 
 
